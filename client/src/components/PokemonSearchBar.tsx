@@ -1,5 +1,4 @@
-import { Input } from '@/components/ui/input';
-import { Search, Loader2, RotateCcw } from 'lucide-react';
+import { Search, Loader2, X } from 'lucide-react';
 
 interface PokemonSearchBarProps {
   searchTerm: string;
@@ -15,27 +14,40 @@ export default function PokemonSearchBar({
   onClear,
 }: PokemonSearchBarProps) {
   return (
-    <div className="space-y-2">
-      <div className="relative">
-        <Search className="absolute left-3 top-3 text-slate-400" size={20} />
+    <div className="flex gap-1.5 items-center">
+      <div className="relative flex-1">
+        <Search
+          className="absolute left-2 top-1/2 -translate-y-1/2 text-slate-500"
+          size={14}
+        />
         {searching && (
-          <Loader2 className="absolute right-3 top-3 text-slate-400 animate-spin" size={20} />
+          <Loader2
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-red-400 animate-spin"
+            size={14}
+          />
         )}
-        <Input
+        <input
           type="text"
-          placeholder="Pesquise um Pokémon..."
+          placeholder="Buscar Pokémon..."
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="search-input pl-10 py-2 w-full text-slate-800 placeholder-slate-400"
+          className="ds-search-input w-full pl-7 pr-7 py-1.5 text-xs"
         />
+        {searchTerm && !searching && (
+          <button
+            onClick={() => onSearchChange('')}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+          >
+            <X size={14} />
+          </button>
+        )}
       </div>
       <button
-        onClick={() => onClear()}
-        className="w-full py-2 px-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all active:scale-95 text-sm flex items-center justify-center gap-2"
-        title="Voltar à lista completa"
+        onClick={onClear}
+        className="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-md text-[0.6rem] font-bold transition-all border border-slate-700 hover:border-slate-500 whitespace-nowrap"
+        title="Limpar e voltar à lista completa"
       >
-        <RotateCcw size={16} />
-        Limpar Pesquisa
+        LIMPAR
       </button>
     </div>
   );
